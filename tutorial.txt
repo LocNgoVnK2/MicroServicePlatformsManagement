@@ -1,0 +1,51 @@
+run : docker run -p 8080:80 ngophuocloc/commandservice(name of service)
+
+to publish docker : docker build -t ngophuocloc/commandservice .
+                    docker push ngophuocloc/commandservice 
+
+check status of docker : docker ps
+
+docker start : docker start 019646feefbc (container id)
+docker stop : docker stop 019646feefbc (container id)
+
+about kubernetes : kubectl get deployments
+
+kubernetes get pods : kubectl get pods
+kubernetes get service : kubectl get service
+
+add kubernetes : kubectl apply -f platforms-depl.yaml
+
+restart kubernetes deployments : kubectl rollout restart deployment platforms-depl
+get container : kubectl get namespaces
+
+get namespaces of ingress-nginx : kubectl get pods --namespace=ingress-nginx
+
+get service of ingress-nginx : kubectl get services --namespace=ingress-nginx
+
+delete ingress-nginx : kubectl delete ingress ingress-srv
+
+create ingress :kubectl apply -f ingress-srv.yaml
+
+
+// some rules to work with kubernetes
+
++ status success
+PS D:\.netSave\MicroServiceDotNet\K8S> kubectl get ingress
+NAME          CLASS   HOSTS      ADDRESS     PORTS   AGE
+ingress-srv   nginx   acme.com   localhost   80      98s
++ check file system 32,driver to add the ADDRESS to mapping with ingress
++ debug in log of ingress
+
+// some definition
+
+  paths:
+          - path: /api/PlatForm/      (url or service)
+            pathType: Prefix            (accept for all action of controller to same head url)
+            backend:
+              service:
+                name: platforms-clusterip-srv     (is the name of a pod group in Kubernete)
+                port:
+                  number: 80
+
+
+// 

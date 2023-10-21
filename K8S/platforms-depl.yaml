@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platforms-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microserviceplatform
+  template:
+    metadata:
+      labels:
+        app: microserviceplatform
+    spec:
+      containers:
+      - name: microserviceplatform
+        image: ngophuocloc/microserviceplatform:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: platforms-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: microserviceplatform
+  ports:
+    - name: microserviceplatform
+      protocol: TCP
+      port: 80
+      targetPort: 80
