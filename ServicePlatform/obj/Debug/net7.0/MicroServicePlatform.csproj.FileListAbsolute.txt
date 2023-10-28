@@ -156,3 +156,4 @@ D:\.netSave\MicroServiceDotNet\ServicePlatform\obj\Debug\net7.0\refint\MicroServ
 D:\.netSave\MicroServiceDotNet\ServicePlatform\obj\Debug\net7.0\MicroServicePlatform.pdb
 D:\.netSave\MicroServiceDotNet\ServicePlatform\obj\Debug\net7.0\MicroServicePlatform.genruntimeconfig.cache
 D:\.netSave\MicroServiceDotNet\ServicePlatform\obj\Debug\net7.0\ref\MicroServicePlatform.dll
+D:\.netSave\MicroServiceDotNet\ServicePlatform\bin\Debug\net7.0\appsettings.Production.json

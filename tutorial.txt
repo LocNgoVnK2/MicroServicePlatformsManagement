@@ -24,6 +24,14 @@ get service of ingress-nginx : kubectl get services --namespace=ingress-nginx
 
 delete ingress-nginx : kubectl delete ingress ingress-srv
 
+PS D:\.netSave\MicroServiceDotNet\K8S> kubectl delete deployment mssql-depl
+deployment.apps "mssql-depl" deleted
+PS D:\.netSave\MicroServiceDotNet\K8S> kubectl get pods
+NAME                              READY   STATUS    RESTARTS       AGE
+commands-depl-bf476f75b-7lnhc     1/1     Running   4 (168m ago)   3d7h
+platforms-depl-7c68d5f749-hqc7d   1/1     Running   4 (168m ago)   3d7h
+(Khi bạn xóa deployment, tất cả các pods thuộc deployment đó cũng sẽ bị xóa.)
+
 create ingress :kubectl apply -f ingress-srv.yaml
 
 
@@ -48,4 +56,104 @@ ingress-srv   nginx   acme.com   localhost   80      98s
                   number: 80
 
 
-// 
+// create secret/mssql
+ kubectl create secret generic mssql --from-literal=SA_PASSWORD="pa55w0rd"
+ => secret/mssql-credentials created
+=> , pass = pa55w0rd
+
+
+ phải tuân thủ secret
+
+
+
+
+// sau khi cập nhật 1 image nào đó thì build lại và push lại docker hub sao đó 
+kubectl rollout restart deployment platforms-depl(tên beployments)
+
+
+// Khi cập nhật code ở local và update lại container và làm mới lại container đó trên kubernetes 
+PS D:\.netSave\MicroServiceDotNet\ServicePlatform> docker build -t ngophuocloc/microserviceplatform .                       0.0s 
+ => => naming to docker.io/ngophuocloc/microserviceplatform                                                                   0.0s 
+
+What's Next?
+  View a summary of image vulnerabilities and recommendations → docker scout quickview
+PS D:\.netSave\MicroServiceDotNet\ServicePlatform> docker push  ngophuocloc/microserviceplatform     
+Using default tag: latest
+The push refers to repository [docker.io/ngophuocloc/microserviceplatform]
+475f981af1dc: Pushed
+7ab599659acb: Pushed
+91b863d1b32c: Pushed
+1da1e403b312: Pushed
+51fdee6e868a: Pushed
+9a822c647cc9: Layer already exists
+633f5bf471f7: Layer already exists
+latest: digest: sha256:8408e895089c447cade2466db50f01de186a3a9f6b5c958cad37d51a852010e5 size: 1789
+PS D:\.netSave\MicroServiceDotNet\ServicePlatform> cd ..
+PS D:\.netSave\MicroServiceDotNet> cd K8S
+PS D:\.netSave\MicroServiceDotNet\K8S> kubectl get deployments
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+commands-depl    1/1     1            1           7d
+mssql-depl       1/1     1            1           2d23h
+platforms-depl   1/1     1            1           2d20h
+PS D:\.netSave\MicroServiceDotNet\K8S> kubectl rollout restart deployment  platforms-depl
+deployment.apps/platforms-depl restarted
+PS D:\.netSave\MicroServiceDotNet\K8S> kubectl get pods
+NAME                             READY   STATUS    RESTARTS      AGE
+commands-depl-76fb9877dd-kctfw   1/1     Running   2 (56m ago)   3d
+mssql-depl-89965d575-wqkq4       1/1     Running   1 (56m ago)   2d23h
+platforms-depl-b89db7496-r4xvv   1/1     Running   0             16s
+PS D:\.netSave\MicroServiceDotNet\K8S>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ // định nghĩa của các tag
+ * `apiVersion: apps/v1`: Xác định phiên bản của API đang được sử dụng. Trong trường hợp này, phiên bản API đang được sử dụng là `apps/v1`.
+* `kind: Deployment`: Xác định loại đối tượng đang được tạo. Trong trường hợp này, loại đối tượng đang được tạo là `Deployment`.
+* `metadata`: Chứa thông tin về đối tượng, chẳng hạn như tên, nhãn và chú thích.
+* `name: mssql-depl`: Xác định tên của đối tượng. Trong trường hợp này, tên của đối tượng là `mssql-depl`.
+* `spec`: Chứa thông số cấu hình của đối tượng.
+* `replicas: 1`: Xác định số bản sao của đối tượng sẽ được tạo. Trong trường hợp này, số bản sao của đối tượng sẽ được tạo là 1.
+* `selector`: Chứa các nhãn được sử dụng để chọn các pod thuộc về đối tượng. Trong trường hợp này, các pod thuộc về đối tượng phải có nhãn `app: mssql`.
+* `template`: Chứa thông số cấu hình của các pod thuộc về đối tượng.
+* `metadata`: Chứa thông tin về các pod thuộc về đối tượng, chẳng hạn như tên, nhãn và chú thích.
+* `labels`: Chứa các nhãn được gắn vào các pod thuộc về đối tượng. Trong trường hợp này, các pod thuộc về đối tượng sẽ được gắn nhãn `app: mssql`.
+* `spec`: Chứa thông số cấu hình của các pod thuộc về đối tượng.
+* `containers`: Chứa thông số cấu hình của các container chạy trong các pod thuộc về đối tượng.
+* `name: mssql`: Xác định tên của container. Trong trường hợp này, tên của container là `mssql`.
+* `image: mcr.microsoft.com/mssql/server:2017-latest`: Xác định ảnh của container. Trong trường hợp này, ảnh của container là `mcr.microsoft.com/mssql/server:2017-latest`.
+* `ports`: Chứa thông số cấu hình của các cổng được mở trong container.
+* `containerPort: 1433`: Xác định số cổng của container. Trong trường hợp này, số cổng của container là 1433.
+* `env`: Chứa thông số cấu hình của các biến môi trường được sử dụng trong container.
+* `name: MSSQL_PID`: Xác định tên của biến môi trường. Trong trường hợp này, tên của biến môi trường là `MSSQL_PID`.
+* `value: "Express"`: Xác định giá trị của biến môi trường. Trong trường hợp này, giá trị của biến môi trường là `"Express"`.
+* `name: ACCEPT_EULA`: Xác định tên của biến môi trường. Trong trường hợp này, tên của biến môi trường là `ACCEPT_EULA`.
+* `value: "Y"`: Xác định giá trị của biến môi trường. Trong trường hợp này, giá trị của biến môi trường là `"Y"`.
+* `name: SA_PASSWORD`: Xác định tên của biến môi trường. Trong trường hợp này, tên của biến môi trường là `SA_PASSWORD`.
+* `valueFrom`: Chứa thông tin về nguồn dữ liệu được sử dụng để xác định giá trị của biến môi trường.
+* `secretKeyRef`: Xác định loại nguồn dữ liệu. Trong trường hợp này, loại nguồn dữ liệu là `secretKeyRef`.
+* `name: mssql`: Xác định tên của secret. Trong trường hợp này, tên của secret là `mssql`.
+* `key: SA_PASSWORD`: Xác định tên của key trong secret. Trong trường hợp này, tên của key là `SA_PASSWORD`.
+* `volumeMounts`: Chứa thông số cấu hình của các volume được gắn vào container.
+* `mountPath: /var/opt/mssql/data`: Xác định đường dẫn gắn kết của volume. Trong trường hợp này, đường dẫn gắn kết của volume là `/var/opt/mssql/data`.
+* `name: mssqldb`: Xác định tên của volume. Trong trường hợp này, tên của volume là `mssqldb`.
+* `volumes`: Chứa thông số cấu hình của các volume được sử dụng bởi các pod thuộc về đối tượng.
+* `name: mssqldb`: Xác định tên của volume. Trong trường hợp này, tên của volume là `mssqldb`.
+* `persistentVolumeClaim`: Chứa thông tin về persistent volume claim được sử dụng bởi volume.
+* `claimName: mssql-claim`: Xác định tên của persistent volume claim. Trong trường hợp này, tên của persistent volume claim là `mssql-claim`.
+

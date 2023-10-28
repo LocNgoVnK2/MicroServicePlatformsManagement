@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.JSInterop.Infrastructure;
 using MicroservicePlatform.SyncDataServices.Http;
 using MicroservicePlatform.SyncDataServices.Http;
+using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,8 +16,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+IWebHostEnvironment _env = builder.Environment;
+IConfiguration configuration = builder.Configuration;
 //db context
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
+if(_env.IsProduction()){
+    Console.WriteLine("Use MS SQL Database");
+    builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("PlatformsConn")));
+}else{
+    Console.WriteLine("Use MEMORY");
+    builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
+}
+
 // scope
 builder.Services.AddScoped<IPlatFormRepo,PlatFormRepo>();
 //http client
@@ -40,6 +50,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-PrepDb.PrepPopulation(app);
+PrepDb.PrepPopulation(app,_env.IsProduction());
 
 app.Run();

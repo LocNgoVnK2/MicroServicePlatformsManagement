@@ -27,8 +27,8 @@ namespace MicroservicePlatform.SyncDataServices.Http
                 JsonSerializer.Serialize(plat),
                 Encoding.UTF8,
                 "application/json");
-            //http://localhost:5241
-            var response = await _httpClient.PostAsync($"{_configuration["CommandService"]}/api/c/platforms", httpContent);
+            //http://localhost:5241 url request right now / recent this need use url of prosuction evirontment to correct url in docker
+            var response = await _httpClient.PostAsync($"{_configuration["CommandService"]}", httpContent);
 
             if(response.IsSuccessStatusCode)
             {
