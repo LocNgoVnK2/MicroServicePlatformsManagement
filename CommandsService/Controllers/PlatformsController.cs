@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-/*
+
 using AutoMapper;
 using CommandsService.Data;
 using CommandsService.Dtos;
-*/
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommandsService.Controllers
@@ -13,13 +13,13 @@ namespace CommandsService.Controllers
     [ApiController]
     public class PlatformsController : ControllerBase
     {
-        //private readonly ICommandRepo _repository;
-       // private readonly IMapper _mapper;
+        private readonly ICommandRepo _repository;
+        private readonly IMapper _mapper;
 
-        public PlatformsController(/*ICommandRepo repository, IMapper mapper*/)
+        public PlatformsController(ICommandRepo repository, IMapper mapper)
         {
-           // _repository = repository;
-//_mapper = mapper;
+            _repository = repository;
+            _mapper = mapper;
         }
         /*
 

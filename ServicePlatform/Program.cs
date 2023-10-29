@@ -5,8 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.JSInterop.Infrastructure;
 using MicroservicePlatform.SyncDataServices.Http;
-using MicroservicePlatform.SyncDataServices.Http;
+
 using Microsoft.IdentityModel.Tokens;
+using MicroservicePlatform.AsyncDataServices;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -33,8 +34,8 @@ builder.Services.AddScoped<IPlatFormRepo,PlatFormRepo>();
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 //Add auto mapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-
+//Add rabbit mq message bus
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

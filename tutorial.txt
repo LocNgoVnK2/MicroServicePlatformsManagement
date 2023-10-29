@@ -157,3 +157,7 @@ PS D:\.netSave\MicroServiceDotNet\K8S>
 * `persistentVolumeClaim`: Chứa thông tin về persistent volume claim được sử dụng bởi volume.
 * `claimName: mssql-claim`: Xác định tên của persistent volume claim. Trong trường hợp này, tên của persistent volume claim là `mssql-claim`.
 
+
+// đường đi cảu rabbitmq : từ service khi thêm 1 platforms thì tin nhắn từ message bus client sẽ được gửi đi thoogn qua rabbitmq sau đó nó sẽ dc nhận bới consumer trong trường hợp này là commandsservice
+tại message bus subcribers sau đó thông tin từ đso được chuyển qua eventprocessing để xử lý thêm platform tương tự  thông qua action add platform của commandcontroller. 
+

@@ -157,3 +157,4 @@ D:\.netSave\MicroServiceDotNet\ServicePlatform\obj\Debug\net7.0\MicroServicePlat
 D:\.netSave\MicroServiceDotNet\ServicePlatform\obj\Debug\net7.0\MicroServicePlatform.genruntimeconfig.cache
 D:\.netSave\MicroServiceDotNet\ServicePlatform\obj\Debug\net7.0\ref\MicroServicePlatform.dll
 D:\.netSave\MicroServiceDotNet\ServicePlatform\bin\Debug\net7.0\appsettings.Production.json
+D:\.netSave\MicroServiceDotNet\ServicePlatform\bin\Debug\net7.0\RabbitMQ.Client.dll

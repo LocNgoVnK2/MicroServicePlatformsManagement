@@ -4,6 +4,7 @@ using MicroservicePlatform.Dtos;
 using MicroservicePlatform.Model;
 using MicroservicePlatform.SyncDataServices.Http;
 using Microsoft.AspNetCore.Mvc;
+using MicroservicePlatform.AsyncDataServices;
 
 namespace MicroservicePlatform.Controllers
 {
@@ -14,12 +15,14 @@ namespace MicroservicePlatform.Controllers
         private IPlatFormRepo _platFormRepo;
         private IMapper _mapper;
         private readonly ICommandDataClient _commandDataClient;
+        private readonly IMessageBusClient _messageBusClient;
 
-        public PlatFormController(IPlatFormRepo platFormRepo, IMapper mapper, ICommandDataClient commandData)
+        public PlatFormController(IPlatFormRepo platFormRepo, IMapper mapper, ICommandDataClient commandData,IMessageBusClient  messageBusClient)
         {
             _platFormRepo = platFormRepo;
             _mapper = mapper;
             _commandDataClient = commandData;
+            _messageBusClient = messageBusClient;
         }
 
         [HttpGet("GetPlatForms")]
@@ -47,6 +50,7 @@ namespace MicroservicePlatform.Controllers
             var platformReadDto = _mapper.Map<PlatformReadDto>(platformModel);
             
             // Send Sync Message
+            /*
             try
             {
                 await _commandDataClient.SendPlatformToCommand(platformReadDto);
@@ -55,7 +59,18 @@ namespace MicroservicePlatform.Controllers
             {
                 Console.WriteLine($"--> Could not send synchronously: {ex.Message}");
             }
-         
+            */
+            //Send Async Message
+            try
+            {
+                var platformPublishedDto = _mapper.Map<PlatformPublishedDto>(platformReadDto);
+                platformPublishedDto.Event = "Platform_Published";
+                _messageBusClient.PublishNewPlatform(platformPublishedDto);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"--> Could not send asynchronously: {ex.Message}");
+            }
             return CreatedAtRoute(nameof(GetPlatFormsById), new { id = platformReadDto.Id }, platformReadDto);
         }
         [HttpDelete("DeletePlatForm")]
