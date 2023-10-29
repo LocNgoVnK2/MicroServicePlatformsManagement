@@ -68,6 +68,9 @@ ingress-srv   nginx   acme.com   localhost   80      98s
 
 
 // sau khi cập nhật 1 image nào đó thì build lại và push lại docker hub sao đó 
+docker build -t ngophuocloc/microserviceplatform .      
+docker push  ngophuocloc/microserviceplatform  
+(cẩn thận thì kubectl get deployments)
 kubectl rollout restart deployment platforms-depl(tên beployments)
 
 
@@ -158,6 +161,6 @@ PS D:\.netSave\MicroServiceDotNet\K8S>
 * `claimName: mssql-claim`: Xác định tên của persistent volume claim. Trong trường hợp này, tên của persistent volume claim là `mssql-claim`.
 
 
-// đường đi cảu rabbitmq : từ service khi thêm 1 platforms thì tin nhắn từ message bus client sẽ được gửi đi thoogn qua rabbitmq sau đó nó sẽ dc nhận bới consumer trong trường hợp này là commandsservice
+// đường đi của rabbitmq : từ service khi thêm 1 platforms thì tin nhắn từ message bus client sẽ được gửi đi thoogn qua rabbitmq sau đó nó sẽ dc nhận bới consumer trong trường hợp này là commandsservice
 tại message bus subcribers sau đó thông tin từ đso được chuyển qua eventprocessing để xử lý thêm platform tương tự  thông qua action add platform của commandcontroller. 
 
