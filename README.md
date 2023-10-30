@@ -1,6 +1,12 @@
 # MicroServicePlatformsManagement
 Standard for Microservice Architecture with 2 services ( ASP.NET Web API , Nginx, .NET 7 ,Docker , Kubernetes, RabbitMQ,...)
 
++ Live Demo : 
+https://www.youtube.com/watch?v=301nWRBAAzc
+
++ More details about Rabbit MQ in my case:
+https://www.youtube.com/watch?v=bXBl23LH0Xg
+
 Structure of your project:
 K8S : Kubernetes resources used to deploy an ASP.NET Core web application
 ![image](https://github.com/LocNgoVnK2/MicroServicePlatformsManagement/assets/77975567/ad55a40d-5f29-46e0-b3e1-4e4604b52f88)
@@ -12,8 +18,6 @@ Kubernetes will automatically create and manage pods to achieve the desired stat
 Beside some informations about pods and deployments of project:
 ![image](https://github.com/LocNgoVnK2/MicroServicePlatformsManagement/assets/77975567/74b7cf58-1946-40b7-a367-6f4e63c221d4)
 ![image](https://github.com/LocNgoVnK2/MicroServicePlatformsManagement/assets/77975567/e1e0c0c0-dd3e-43d0-bb39-48372ba9c5b4)
-
-Live Demo : 
 
 
 
