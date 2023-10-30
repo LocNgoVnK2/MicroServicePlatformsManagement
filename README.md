@@ -1,4 +1,4 @@
-# MicroServicePlatformsManagement
+# MicroService Platforms Management
 Standard for Microservice Architecture with 2 services ( ASP.NET Web API , Nginx, .NET 7 ,Docker , Kubernetes, RabbitMQ,...)
 
 + Live Demo : 
